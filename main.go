@@ -92,7 +92,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 
 }
 
-var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+var templates = template.Must(template.ParseFiles("views/edit.html", "views/view.html"))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 
