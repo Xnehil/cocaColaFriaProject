@@ -10,6 +10,8 @@ import (
 	"os"
 
 	"regexp"
+
+	"net"
 )
 
 type Page struct {
@@ -129,13 +131,15 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 func main() {
+    http.HandleFunc("/view/", makeHandler(viewHandler))
+    http.HandleFunc("/edit/", makeHandler(editHandler))
+    http.HandleFunc("/save/", makeHandler(saveHandler))
 
-	http.HandleFunc("/view/", makeHandler(viewHandler))
+    listener, err := net.Listen("tcp", ":0")
+    if err != nil {
+        log.Fatal(err)
+    }
 
-	http.HandleFunc("/edit/", makeHandler(editHandler))
-
-	http.HandleFunc("/save/", makeHandler(saveHandler))
-
-	log.Fatal(http.ListenAndServe(":8080", nil))
-
+    log.Printf("Listening on port %v", listener.Addr().(*net.TCPAddr).Port)
+    log.Fatal(http.Serve(listener, nil))
 }
