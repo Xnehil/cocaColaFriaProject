@@ -19,7 +19,10 @@ jobs:
         go-version: '1.20'
 
     - name: Initialize Go modules
-      run: go mod init github.com/Xnehil/cocaColaFriaProject
+      run: |
+        if [ ! -f go.mod ]; then
+          go mod init github.com/Xnehil/cocaColaFriaProject
+        fi
 
     - name: Build
       run: go build -v ./...
