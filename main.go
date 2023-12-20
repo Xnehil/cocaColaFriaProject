@@ -131,15 +131,20 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 }
 
 func main() {
-    http.HandleFunc("/view/", makeHandler(viewHandler))
-    http.HandleFunc("/edit/", makeHandler(editHandler))
-    http.HandleFunc("/save/", makeHandler(saveHandler))
+	http.HandleFunc("/view/", makeHandler(viewHandler))
+	http.HandleFunc("/edit/", makeHandler(editHandler))
+	http.HandleFunc("/save/", makeHandler(saveHandler))
 
-    listener, err := net.Listen("tcp", ":0")
-    if err != nil {
-        log.Fatal(err)
-    }
+	port := os.Getenv("PORT")
+	if port == "" {
+		log.Fatal("$PORT must be set")
+	}
 
-    log.Printf("Listening on port %v", listener.Addr().(*net.TCPAddr).Port)
-    log.Fatal(http.Serve(listener, nil))
+	listener, err := net.Listen("tcp", ":"+port)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Printf("Listening on port %v", listener.Addr().(*net.TCPAddr).Port)
+	log.Fatal(http.Serve(listener, nil))
 }
