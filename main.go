@@ -2,11 +2,13 @@ package main
 
 import (
 	"log"
-	"net"
 	"net/http"
 	"os"
 	"regexp"
+	"strings"
 	"text/template"
+
+	"github.com/go-chi/chi"
 )
 
 type Page struct {
@@ -89,7 +91,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 
 }
 
-var templates = template.Must(template.ParseFiles("views/edit.html", "views/view.html"))
+var templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/landing.html"))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 
@@ -125,21 +127,46 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 
 }
 
-func main() {
-	http.HandleFunc("/view/", makeHandler(viewHandler))
-	http.HandleFunc("/edit/", makeHandler(editHandler))
-	http.HandleFunc("/save/", makeHandler(saveHandler))
+func landingPageHandler(w http.ResponseWriter, r *http.Request) {
+	p := &Page{Title: "Welcome"} // You can customize this Page struct as needed
+	renderTemplate(w, "landing", p)
+}
 
-	port := os.Getenv("PORT")
+func fileServer(r chi.Router, path string, root http.FileSystem) {
+	if strings.ContainsAny(path, "{}*") {
+		panic("FileServer does not permit any URL parameters.")
+	}
+
+	fs := http.StripPrefix(path, http.FileServer(root))
+
+	if path != "/" && path[len(path)-1] != '/' {
+		r.Get(path, http.RedirectHandler(path+"/", 301).ServeHTTP)
+		path += "/"
+	}
+	path += "*"
+
+	r.Get(path, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fs.ServeHTTP(w, r)
+	}))
+}
+
+func main() {
+	r := chi.NewRouter()
+
+	r.Get("/view/{title}", makeHandler(viewHandler))
+	r.Get("/edit/{title}", makeHandler(editHandler))
+	r.Post("/save/{title}", makeHandler(saveHandler))
+	fileServer(r, "/static", http.Dir("static"))
+	r.Get("/", landingPageHandler)
+
+	port, exists := os.LookupEnv("PORT")
+	if !exists {
+		port = "8080"
+	}
 	if port == "" {
 		log.Fatal("$PORT must be set")
 	}
 
-	listener, err := net.Listen("tcp", ":"+port)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Printf("Listening on port %v", listener.Addr().(*net.TCPAddr).Port)
-	log.Fatal(http.Serve(listener, nil))
+	log.Printf("Listening on port %v", port)
+	log.Fatal(http.ListenAndServe(":"+port, r))
 }
