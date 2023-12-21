@@ -2,12 +2,11 @@ package main
 
 import (
 	"html/template"
+	"os"
 
 	"log"
 
 	"net/http"
-
-	"os"
 
 	"regexp"
 
