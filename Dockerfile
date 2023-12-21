@@ -8,6 +8,11 @@ FROM alpine
 RUN adduser -S -D -H -h /app appuser
 USER appuser
 COPY --from=builder /build/main /app/
-COPY views/ /app/views
+COPY static/ /app/static
+COPY templates/ /app/templates
+copy scripts/ /app/scripts
+copy tests/ /app/tests
+copy configs/ /app/configs
+copy docs/ /app/docs
 WORKDIR /app
 CMD ["./main"]
