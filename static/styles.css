@@ -27,7 +27,17 @@ header {
 
 .feature {
     width: 30%;
+    cursor: pointer;
+    padding: 20px;
+    /*Round borders*/
+    border-radius: 5px;
 }
+
+.feature.clicked {
+    background-color: #123451; /* Change to whatever color you want */
+    color: white;
+}
+
 
 .btn {
     display: inline-block;

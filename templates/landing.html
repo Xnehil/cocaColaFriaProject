@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>El Espeluznante Sitio Web de Masha</title>
-    <link rel="stylesheet" type="text/css" href="static/styles.css">
-    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
-</head>
-<body>
-    <header>
-        <h1>¡Bienvenido al Espeluznante Sitio Web de Masha!</h1>
-    </header>
-
-    <section class="hero">
-        <h2>Entra si te atreves...</h2>
-        <p>Prepárate para un escalofriante viaje a través de los oscuros rincones del mundo de Masha.</p>
-        <a href="/view/test" hx-get="/view/test" hx-swap="outerHTML" class="btn">Aprende Más</a>
-    </section>
-
-    <section class="features">
-        <div class="feature">
-            <h3>Bosque Encantado</h3>
-            <p>Explora el bosque encantado donde misteriosas criaturas acechan en las sombras.</p>
-        </div>
-        <div class="feature">
-            <h3>Cuentos Fantasmales</h3>
-            <p>Lee historias escalofriantes que te pondrán los pelos de punta.</p>
-        </div>
-        <div class="feature">
-            <!-- More content here -->
-        </div>
-    </section>
-</body>
-</html>
+    <head>
+        <title>El Espeluznante Sitio Web de Masha</title>
+        <link rel="stylesheet" type="text/css" href="static/styles.css">
+        <script src="https://unpkg.com/htmx.org@1.9.9"></script>
+        <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    </head>
+    <body>
+        <header>
+            <h1>¡Bienvenido al Espeluznante Sitio Web de Masha!</h1>
+        </header>
+    
+        <section class="hero">
+            <h2>Entra si te atreves...</h2>
+            <p>Prepárate para un escalofriante viaje a través de los oscuros rincones del mundo de Masha.</p>
+            <a href="/edit/test" hx-get="/edit/test" hx-swap="outerHTML" class="btn" _="on click add .loading to me">Aprende Más</a>
+        </section>
+    
+        <section class="features">
+            <div class="feature" _="on click toggle .clicked on me">
+                <h3>Bosque Encantado</h3>
+                <p>Explora el bosque encantado donde misteriosas criaturas acechan en las sombras.</p>
+            </div>
+            <div class="feature" _="on click toggle .clicked on me">
+                <h3>Cuentos Fantasmales</h3>
+                <p>Lee historias escalofriantes que te pondrán los pelos de punta.</p>
+            </div>
+            <div class="feature" _="on click toggle .clicked on me">
+                <!-- More content here -->
+            </div>
+        </section>
+    </body>
+    </html>
