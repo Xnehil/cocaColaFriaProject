@@ -1,23 +1,13 @@
 package main
 
 import (
-	"html/template"
-	"os"
-
 	"log"
-
-	"net/http"
-
-	"regexp"
-
 	"net"
+	"net/http"
+	"os"
+	"regexp"
+	"text/template"
 )
-
-type Page struct {
-	Title string
-
-	Body []byte
-}
 
 func (p *Page) save() error {
 
