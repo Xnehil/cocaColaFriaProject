@@ -73,10 +73,8 @@ func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Start the response
-	// fmt.Fprint(w, `<div class="messageContent pt-4">`)
-
 	// Format each anuncio into HTML
+
 	for _, anuncio := range anuncios {
 		title, ok := anuncio["title"].(string)
 		if !ok {
@@ -90,9 +88,11 @@ func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		fmt.Fprintf(w, `<h2>%s</h2><p>%s</p>`, title, description)
+		// Start the response for each anuncio
+		fmt.Fprint(w, `<div class="w-full sm:w-1/2 md:w-1/3 p-3">`)
+		fmt.Fprint(w, `<div class="component rounded shadow p-5" _="on click add .clicked to me">`)
+		fmt.Fprintf(w, `<div class="header text-xl">%s</div><div class="messageContent pt-4">%s</div>`, title, description)
+		// End the response for each anuncio
+		fmt.Fprint(w, `</div></div>`)
 	}
-
-	// End the response
-	// fmt.Fprint(w, `</div>`)
 }
