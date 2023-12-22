@@ -57,3 +57,39 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+.component {
+    background: #262931;
+}
+
+.announcementBanner {
+    padding-left: 24px;
+    padding-right: 24px;
+    background: #A8C3EB;
+    justify-content: space-between;
+    align-items: center;
+    display: inline-flex;
+}
+
+.messageContent {
+    padding: 24px;
+    border-radius: 5px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 24px;
+    display: inline-flex;
+}
+
+.header {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background: #262931;
+    border-bottom: 1px #333842 solid;
+    justify-content: flex-start;
+    align-items: center;
+    display: inline-flex;
+}
+
