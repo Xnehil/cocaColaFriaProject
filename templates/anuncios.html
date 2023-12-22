@@ -7,8 +7,8 @@
             rel="stylesheet"
         />
         <link rel="stylesheet" href="static/styles/styles.css" />
-        <script src="https://unpkg.com/htmx.org@1.6.1"></script>
-        <script src="https://unpkg.com/hyperscript@0.0.3/dist/hyperscript.min.js"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+        <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
     </head>
     <body class="bg-gray-200" _="on load add .loaded to body">
         <!-- Top bar -->
@@ -70,9 +70,28 @@
             </div>
         </div>
     </body>
-    <footer>
-        <div class="mainButton">
+    <footer id="footer">
+        <div class="mainButton" _="on click add .is-active to #modal">
             Craftear anuncio
+        </div>
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span class="close" _="on click remove .is-active from #modal"
+                    >&times;</span
+                >
+                <form id="anuncioForm">
+                    <label for="title">Title:</label><br />
+                    <input type="text" id="title" name="title" /><br />
+                    <label for="description">Description:</label><br />
+                    <input
+                        type="text"
+                        id="description"
+                        name="description"
+                    /><br />
+                    <!-- Add more fields as necessary -->
+                    <input type="submit" value="Submit" />
+                </form>
+            </div>
         </div>
     </footer>
 </html>

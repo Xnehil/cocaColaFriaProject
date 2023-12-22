@@ -31,6 +31,7 @@ func main() {
 	r.Get("/edit/{title}", makeHandler(editHandler))
 	r.Post("/save/{title}", makeHandler(saveHandler))
 	fileServer(r, "/static", http.Dir("static"))
+	fileServer(r, "/templates", http.Dir("templates"))
 	r.Get("/", landingPageHandler)
 	r.Get("/anuncios", anunciosHandler)
 
