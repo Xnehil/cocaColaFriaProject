@@ -103,7 +103,7 @@ footer {
     padding-right: 14px;
     background: #095AD2;
     border-radius: 4px;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     display: inline-flex;
