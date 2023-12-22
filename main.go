@@ -1,158 +1,40 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
-	"regexp"
-	"strings"
-	"text/template"
 
 	"github.com/go-chi/chi"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Page struct {
-	Title string
+// Your MongoDB Atlas Connection String
+const uri = "mongodb+srv://masha:SFFLG4dKrInyBB2u@cocacolafria.ksukw21.mongodb.net/?retryWrites=true&w=majority"
 
-	Body []byte
+// A global variable that will hold a reference to the MongoDB client
+var mongoClient *mongo.Client
+
+// The init function will run before our main function to establish a connection to MongoDB. If it cannot connect it will fail and the program will exit.
+func init() {
+	if err := connect_to_mongodb(); err != nil {
+		log.Fatal("Could not connect to MongoDB")
+	}
 }
 
-func (p *Page) save() error {
+func connect_to_mongodb() error {
+	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
+	opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
 
-	filename := p.Title + ".txt"
-
-	return os.WriteFile(filename, p.Body, 0600)
-
-}
-
-func loadPage(title string) (*Page, error) {
-
-	filename := title + ".txt"
-
-	body, err := os.ReadFile(filename)
-
+	client, err := mongo.Connect(context.TODO(), opts)
 	if err != nil {
-
-		return nil, err
-
+		panic(err)
 	}
-
-	return &Page{Title: title, Body: body}, nil
-
-}
-
-func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
-
-	p, err := loadPage(title)
-
-	if err != nil {
-
-		http.Redirect(w, r, "/edit/"+title, http.StatusFound)
-
-		return
-
-	}
-
-	renderTemplate(w, "view", p)
-
-}
-
-func editHandler(w http.ResponseWriter, r *http.Request, title string) {
-
-	p, err := loadPage(title)
-
-	if err != nil {
-
-		p = &Page{Title: title}
-
-	}
-
-	renderTemplate(w, "edit", p)
-
-}
-
-func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
-
-	body := r.FormValue("body")
-
-	p := &Page{Title: title, Body: []byte(body)}
-
-	err := p.save()
-
-	if err != nil {
-
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-
-		return
-
-	}
-
-	http.Redirect(w, r, "/view/"+title, http.StatusFound)
-
-}
-
-var templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/landing.html", "templates/anuncios.html"))
-
-func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
-
-	err := templates.ExecuteTemplate(w, tmpl+".html", p)
-
-	if err != nil {
-
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-
-	}
-
-}
-
-var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
-
-func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
-
-	return func(w http.ResponseWriter, r *http.Request) {
-
-		m := validPath.FindStringSubmatch(r.URL.Path)
-
-		if m == nil {
-
-			http.NotFound(w, r)
-
-			return
-
-		}
-
-		fn(w, r, m[2])
-
-	}
-
-}
-
-func landingPageHandler(w http.ResponseWriter, r *http.Request) {
-	p := &Page{Title: "Welcome"} // You can customize this Page struct as needed
-	renderTemplate(w, "landing", p)
-}
-
-func fileServer(r chi.Router, path string, root http.FileSystem) {
-	if strings.ContainsAny(path, "{}*") {
-		panic("FileServer does not permit any URL parameters.")
-	}
-
-	fs := http.StripPrefix(path, http.FileServer(root))
-
-	if path != "/" && path[len(path)-1] != '/' {
-		r.Get(path, http.RedirectHandler(path+"/", 301).ServeHTTP)
-		path += "/"
-	}
-	path += "*"
-
-	r.Get(path, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		fs.ServeHTTP(w, r)
-	}))
-}
-
-func anunciosHandler(w http.ResponseWriter, r *http.Request) {
-	p := &Page{Title: "Anuncios"} // You can customize this Page struct as needed
-	renderTemplate(w, "anuncios", p)
+	err = client.Ping(context.TODO(), nil)
+	mongoClient = client
+	return err
 }
 
 func main() {
