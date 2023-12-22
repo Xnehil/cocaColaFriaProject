@@ -1,2 +1,3 @@
-go run main.go handlers.go models.go database.go
+go build main.go handlers.go models.go database.go
+main.exe
 ```
