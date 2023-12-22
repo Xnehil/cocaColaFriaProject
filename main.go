@@ -8,6 +8,22 @@ import (
 	"github.com/go-chi/chi"
 )
 
+func AuthMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Check the Authorization header
+		token := r.Header.Get("Authorization")
+
+		// Validate the token (this is just a simple example, you should replace this with your actual validation logic)
+		if token != "your-valid-token" {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		// If the token is valid, call the next handler
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	r := chi.NewRouter()
 
@@ -17,7 +33,14 @@ func main() {
 	fileServer(r, "/static", http.Dir("static"))
 	r.Get("/", landingPageHandler)
 	r.Get("/anuncios", anunciosHandler)
-	r.Get("/getAnuncios", getAnuncios)
+
+	// Protected routes
+	r.Route("/api", func(r chi.Router) {
+		r.Use(AuthMiddleware) // Apply the AuthMiddleware to all routes in this group
+
+		r.Get("/getAnuncios", getAnuncios)
+		// Other protected routes...
+	})
 
 	port, exists := os.LookupEnv("PORT")
 	if !exists {
