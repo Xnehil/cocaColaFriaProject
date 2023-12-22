@@ -108,4 +108,26 @@ footer {
     align-items: center;
     display: inline-flex;
     max-width: 200px;
+    cursor: pointer;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Offset for center alignment */
+    width: 80%; /* 80% of viewport width */
+    max-width: 600px; /* Max width */
+    max-height: 80%; /* 80% of viewport height */
+    padding: 20px; /* Padding around content */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: #fff; /* White background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+.modal.is-active {
+    display: block;
 }
