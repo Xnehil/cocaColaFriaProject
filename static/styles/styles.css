@@ -65,6 +65,7 @@ footer {
 .announcementBanner {
     padding-left: 24px;
     padding-right: 24px;
+    width: 100%;
     background: #A8C3EB;
     justify-content: space-between;
     align-items: center;
@@ -72,18 +73,18 @@ footer {
 }
 
 .messageContent {
-    padding: 24px;
     border-radius: 5px;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 24px;
     display: inline-flex;
+    color: #C1C7D0;
+    font-weight: 400;
+    width: 100%;
 }
 
 .header {
-    padding-left: 24px;
-    padding-right: 24px;
     padding-top: 12px;
     padding-bottom: 12px;
     background: #262931;
@@ -91,5 +92,7 @@ footer {
     justify-content: flex-start;
     align-items: center;
     display: inline-flex;
+    width: 100%;
+    color: white;
 }
 
