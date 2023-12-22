@@ -59,10 +59,9 @@
               _="on click add .clicked to me"
             >
               <div class="header text-xl">Anuncio 1</div>
-              <div class="messageContent pt-4">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </div>
+              <div class="messageContent pt-4" hx-get="/api/getAnunciosHtml" hx-trigger="load" hx-headers='{"Authorization": "fantadepina"}'>
+                <!-- Content will be loaded here -->
+            </div>
             </div>
           </div>
           <!-- Repeat for more cards -->

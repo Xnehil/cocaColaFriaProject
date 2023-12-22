@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -37,23 +38,61 @@ func connect_to_mongodb() error {
 	return err
 }
 
-// GET /movies - Get all movies
-func getAnuncios(w http.ResponseWriter, r *http.Request) {
+func fetchAnuncios() ([]bson.M, error) {
 	// Find movies
 	collection := mongoClient.Database("cocacolafria").Collection("anuncio")
 	cursor, err := collection.Find(context.Background(), bson.D{})
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		return nil, err
 	}
 
 	// Map results
 	var anuncios []bson.M
 	if err = cursor.All(context.Background(), &anuncios); err != nil {
+		return nil, err
+	}
+
+	return anuncios, nil
+}
+
+func getAnuncios(w http.ResponseWriter, r *http.Request) {
+	anuncios, err := fetchAnuncios()
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	// Return movies
 	json.NewEncoder(w).Encode(anuncios)
+}
+
+func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
+	anuncios, err := fetchAnuncios()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Start the response
+	// fmt.Fprint(w, `<div class="messageContent pt-4">`)
+
+	// Format each anuncio into HTML
+	for _, anuncio := range anuncios {
+		title, ok := anuncio["title"].(string)
+		if !ok {
+			http.Error(w, "Error: anuncio title is not a string", http.StatusInternalServerError)
+			return
+		}
+
+		description, ok := anuncio["description"].(string)
+		if !ok {
+			http.Error(w, "Error: anuncio description is not a string", http.StatusInternalServerError)
+			return
+		}
+
+		fmt.Fprintf(w, `<h2>%s</h2><p>%s</p>`, title, description)
+	}
+
+	// End the response
+	// fmt.Fprint(w, `</div>`)
 }

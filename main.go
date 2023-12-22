@@ -14,7 +14,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		token := r.Header.Get("Authorization")
 
 		// Validate the token (this is just a simple example, you should replace this with your actual validation logic)
-		if token != "your-valid-token" {
+		if token != "fantadepina" {
 			http.Error(w, "Unauthorized", http.StatusUnauthorized)
 			return
 		}
@@ -39,6 +39,7 @@ func main() {
 		r.Use(AuthMiddleware) // Apply the AuthMiddleware to all routes in this group
 
 		r.Get("/getAnuncios", getAnuncios)
+		r.Get("/getAnunciosHtml", getAnunciosHtml)
 		// Other protected routes...
 	})
 
