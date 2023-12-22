@@ -91,7 +91,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 
 }
 
-var templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/landing.html"))
+var templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/landing.html", "templates/anuncios.html"))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 
@@ -150,6 +150,11 @@ func fileServer(r chi.Router, path string, root http.FileSystem) {
 	}))
 }
 
+func anunciosHandler(w http.ResponseWriter, r *http.Request) {
+	p := &Page{Title: "Anuncios"} // You can customize this Page struct as needed
+	renderTemplate(w, "anuncios", p)
+}
+
 func main() {
 	r := chi.NewRouter()
 
@@ -158,6 +163,7 @@ func main() {
 	r.Post("/save/{title}", makeHandler(saveHandler))
 	fileServer(r, "/static", http.Dir("static"))
 	r.Get("/", landingPageHandler)
+	r.Get("/anuncios", anunciosHandler)
 
 	port, exists := os.LookupEnv("PORT")
 	if !exists {
