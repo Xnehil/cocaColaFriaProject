@@ -201,3 +201,15 @@ textarea.error,
 input.error {
   border: 1px #bb3e4e solid !important;
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  background: #1F2329;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7A7A7A;
+  border-radius: 100px;
+  height: 33px;
+}
