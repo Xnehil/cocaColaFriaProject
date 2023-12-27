@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="static/styles/styles.css" />
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <script src="scripts/validations.js"></script>
   </head>
   <body class="on load add .loaded to body">
     <!-- Top bar -->
@@ -61,21 +62,36 @@
       </div>
     </div>
   </body>
-  <footer id="footer" class="flex justify-end">
-    <div class="mainButton mr-6" _="on click add .is-active to #modal">
-      <img src="static/icons/Vector.svg" alt="Add" class="mr-2" />
+  <footer id="footer">
+    <div class="mainButton" _="on click add .is-active to #modal">
       Craftear anuncio
     </div>
-    <div id="modal" class="modal">
+    <div id="modal" class="modal bg-white">
       <div class="modal-content">
-        <span class="close" _="on click remove .is-active from #modal"
+        <span
+          class="close text-right text-black"
+          _="on click remove .is-active from #modal then call clearAnuncioForm()"
           >&times;</span
         >
-        <form id="anuncioForm">
+        <form
+          id="anuncioForm"
+          class="text-black"
+          onsubmit="return validateAnuncioForm()"
+          hx-post="/api/createAnuncio"
+          hx-trigger="submit"
+          hx-swap="beforeend"
+          hx-headers='{"Authorization": "fantadepina"}'
+        >
           <label for="title">Title:</label><br />
-          <input type="text" id="title" name="title" /><br />
+          <input type="text" id="title" name="title" class="input-style" />
           <label for="description">Description:</label><br />
-          <input type="text" id="description" name="description" /><br />
+          <input
+            type="text"
+            id="description"
+            name="description"
+            class="input-style"
+          />
+          <div id="errorMessages"></div>
           <!-- Add more fields as necessary -->
           <input type="submit" value="Submit" />
         </form>

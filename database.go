@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -100,4 +101,70 @@ func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
 		// End the response for each anuncio
 		fmt.Fprint(w, `</div></div>`)
 	}
+}
+
+func createAnuncio(w http.ResponseWriter, r *http.Request) {
+	// Parse the form data
+	err := r.ParseForm()
+	if err != nil {
+		//Print the error message in the server log
+		log.Println(err.Error())
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Get the values from the form data
+	title := r.FormValue("title")
+	description := r.FormValue("description")
+
+	// Check that the fields are not empty
+	if title == "" || description == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		fmt.Fprintf(w, `
+			<script>
+				if (!document.querySelector('#errorMessages')) {
+					var form = document.querySelector('#anuncioForm');
+					var errorDiv = document.createElement('div');
+					errorDiv.id = 'errorMessages';
+					errorDiv.innerHTML = '<p style="color:red;">Debes ingresar</p>';
+					form.insertAfter(errorDiv, form.lastChild);
+				}
+			</script>
+		`)
+		return
+	}
+
+	// Create a new anuncio
+	anuncio := bson.M{
+		"title":       title,
+		"description": description,
+		"date":        time.Now(),
+		"game":        "cocacolafria",
+		"location":    "Casa de Masha",
+		"contact":     "gmail@mashamail.com",
+	}
+
+	// Insert the anuncio into the database
+	collection := mongoClient.Database("cocacolafria").Collection("anuncio")
+	_, err = collection.InsertOne(context.Background(), anuncio)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		fmt.Fprintf(w, `
+			<script>
+				if (!document.querySelector('#errorMessages')) {
+					var form = document.querySelector('#anuncioForm');
+					var errorDiv = document.createElement('div');
+					errorDiv.id = 'errorMessages';
+					errorDiv.innerHTML = '<p style="color:red;">Internal Server Error</p>';
+					form.insertBefore(errorDiv, form.firstChild);
+				}
+			</script>
+		`)
+		return
+	}
+
+	//If everything went well, send a 200 status and redirect to the anuncios page
+	w.WriteHeader(http.StatusOK)
 }
