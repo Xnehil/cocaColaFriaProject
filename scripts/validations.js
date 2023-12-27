@@ -8,6 +8,16 @@ function validateAnuncioForm() {
       errorMessages.innerHTML = '<p style="color:red;">Debes ingresar título y descripción o Masha te enfría</p>';
       return false;
     }
+
+    //Check max length
+    if (title.length > 30) {
+      errorMessages.innerHTML = '<p style="color:red;">El título debe tener menos de 30 caracteres</p>';
+      return false;
+    }
+    if (description.length > 250) {
+      errorMessages.innerHTML = '<p style="color:red;">La descripción debe tener menos de 250 caracteres, no te tumbes la BD por favor</p>';
+      return false;
+    }
   
     errorMessages.innerHTML = '';
     return true;
