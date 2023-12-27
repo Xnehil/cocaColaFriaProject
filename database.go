@@ -97,7 +97,7 @@ func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
 		// Start the response for each anuncio
 		fmt.Fprint(w, `<div class="w-full sm:w-1/2 md:w-1/3 p-3">`)
 		fmt.Fprint(w, `<div class="component rounded shadow p-5" _="on click add .clicked to me">`)
-		fmt.Fprintf(w, `<div class="header text-xl">%s</div><div class="messageContent pt-4">%s</div>`, title, description)
+		fmt.Fprintf(w, `<div class="header text-xl">%s</div><div class="pt-5"><div class="messageContent">%s</div></div>`, title, description)
 		// End the response for each anuncio
 		fmt.Fprint(w, `</div></div>`)
 	}
