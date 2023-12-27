@@ -73,6 +73,11 @@ func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Limit the number of anuncios to the last 12
+	if len(anuncios) > 12 {
+		anuncios = anuncios[len(anuncios)-12:]
+	}
+
 	// Format each anuncio into HTML
 
 	for _, anuncio := range anuncios {
