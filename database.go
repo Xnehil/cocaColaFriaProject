@@ -53,6 +53,11 @@ func fetchAnuncios() ([]bson.M, error) {
 		return nil, err
 	}
 
+	//Reverse the order of the anuncios
+	for i, j := 0, len(anuncios)-1; i < j; i, j = i+1, j-1 {
+		anuncios[i], anuncios[j] = anuncios[j], anuncios[i]
+	}
+
 	return anuncios, nil
 }
 
@@ -122,7 +127,7 @@ func createAnuncio(w http.ResponseWriter, r *http.Request) {
 					var form = document.querySelector('#anuncioForm');
 					var errorDiv = document.createElement('div');
 					errorDiv.id = 'errorMessages';
-					errorDiv.innerHTML = '<p style="color:red;">Debes ingresar</p>';
+					errorDiv.innerHTML = '<p style="color:red;">Debes ingresar título y descripción o Masha te enfría</p>';
 					form.insertAfter(errorDiv, form.lastChild);
 				}
 			</script>
@@ -160,6 +165,6 @@ func createAnuncio(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//If everything went well, send a 200 status and redirect to the anuncios page
-	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/javascript")
+	w.Write([]byte(`<script>clearAnuncioForm();window.location.reload();</script>`))
 }
