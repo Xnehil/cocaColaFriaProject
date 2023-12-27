@@ -79,6 +79,11 @@ func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Limit the number of anuncios to the last 12
+	if len(anuncios) > 12 {
+		anuncios = anuncios[len(anuncios)-12:]
+	}
+
 	// Format each anuncio into HTML
 
 	for _, anuncio := range anuncios {
@@ -97,7 +102,7 @@ func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
 		// Start the response for each anuncio
 		fmt.Fprint(w, `<div class="w-full sm:w-1/2 md:w-1/3 p-3">`)
 		fmt.Fprint(w, `<div class="component rounded shadow p-5" _="on click add .clicked to me">`)
-		fmt.Fprintf(w, `<div class="header text-xl">%s</div><div class="messageContent pt-4">%s</div>`, title, description)
+		fmt.Fprintf(w, `<div class="header text-xl">%s</div><div class="pt-5"><div class="messageContent">%s</div></div>`, title, description)
 		// End the response for each anuncio
 		fmt.Fprint(w, `</div></div>`)
 	}
