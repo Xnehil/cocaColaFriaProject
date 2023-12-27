@@ -1,97 +1,101 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>El espeluznante sitio web de Masha</title>
-        <link
-            href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
-            rel="stylesheet"
-        />
-        <link rel="stylesheet" href="static/styles/styles.css" />
-        <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-        <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
-    </head>
-    <body class="bg-gray-200" _="on load add .loaded to body">
-        <!-- Top bar -->
-        <nav class="bg-black text-white p-3">
-            <span class="navbar-brand mb-0 h1"
-                >El espeluznante sitio web de Masha</span
+  <head>
+    <title>El espeluznante sitio web de Masha</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="static/styles/styles.css" />
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+    <script src="scripts/validations.js"></script>
+  </head>
+  <body class="bg-gray-200" _="on load add .loaded to body">
+    <!-- Top bar -->
+    <nav class="bg-black text-white p-3">
+      <span class="navbar-brand mb-0 h1"
+        >El espeluznante sitio web de Masha</span
+      >
+    </nav>
+
+    <div class="flex">
+      <!-- Left bar -->
+      <div class="w-1/6 bg-white p-3">
+        <!-- Replace with your icons -->
+        <ul>
+          <li>
+            <a href="#" class="block py-1" _="on click toggle .active on me"
+              >Icon 1</a
             >
-        </nav>
+          </li>
+          <li>
+            <a href="#" class="block py-1" _="on click toggle .active on me"
+              >Icon 2</a
+            >
+          </li>
+          <li>
+            <a href="#" class="block py-1" _="on click toggle .active on me"
+              >Icon 3</a
+            >
+          </li>
+        </ul>
+      </div>
 
-        <div class="flex">
-            <!-- Left bar -->
-            <div class="w-1/6 bg-white p-3">
-                <!-- Replace with your icons -->
-                <ul>
-                    <li>
-                        <a
-                            href="#"
-                            class="block py-1"
-                            _="on click toggle .active on me"
-                            >Icon 1</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            class="block py-1"
-                            _="on click toggle .active on me"
-                            >Icon 2</a
-                        >
-                    </li>
-                    <li>
-                        <a
-                            href="#"
-                            class="block py-1"
-                            _="on click toggle .active on me"
-                            >Icon 3</a
-                        >
-                    </li>
-                </ul>
-            </div>
+      <!-- Main content -->
+      <div class="w-5/6 p-3">
+        <!-- Banner -->
+        <!-- Banner -->
+        <div class="p-3">
+          <div class="announcementBanner p-5">
+            <h1 class="text-4xl">Anuncios</h1>
+          </div>
+        </div>
 
-            <!-- Main content -->
-            <div class="w-5/6 p-3">
-                <!-- Banner -->
-                <!-- Banner -->
-                <div class="p-3">
-                    <div class="announcementBanner p-5">
-                        <h1 class="text-4xl">Anuncios</h1>
-                    </div>
-                </div>
-
-                <!-- Cards -->
-                <div
-                    class="flex flex-wrap"
-                    hx-get="/api/getAnunciosHtml"
-                    hx-trigger="load"
-                    hx-headers='{"Authorization": "fantadepina"}'
-                ></div>
-            </div>
-        </div>
-    </body>
-    <footer id="footer">
-        <div class="mainButton" _="on click add .is-active to #modal">
-            Craftear anuncio
-        </div>
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <span class="close" _="on click remove .is-active from #modal"
-                    >&times;</span
-                >
-                <form id="anuncioForm">
-                    <label for="title">Title:</label><br />
-                    <input type="text" id="title" name="title" /><br />
-                    <label for="description">Description:</label><br />
-                    <input
-                        type="text"
-                        id="description"
-                        name="description"
-                    /><br />
-                    <!-- Add more fields as necessary -->
-                    <input type="submit" value="Submit" />
-                </form>
-            </div>
-        </div>
-    </footer>
+        <!-- Cards -->
+        <div
+          class="flex flex-wrap"
+          hx-get="/api/getAnunciosHtml"
+          hx-trigger="load"
+          hx-headers='{"Authorization": "fantadepina"}'
+        ></div>
+      </div>
+    </div>
+  </body>
+  <footer id="footer">
+    <div class="mainButton" _="on click add .is-active to #modal">
+      Craftear anuncio
+    </div>
+    <div id="modal" class="modal bg-white">
+      <div class="modal-content">
+        <span
+          class="close text-right text-black"
+          _="on click remove .is-active from #modal then call clearAnuncioForm()"
+          >&times;</span
+        >
+        <form
+          id="anuncioForm"
+          class="text-black"
+          onsubmit="return validateAnuncioForm()"
+          hx-post="/api/createAnuncio"
+          hx-trigger="submit"
+          hx-swap="beforeend"
+          hx-headers='{"Authorization": "fantadepina"}'
+        >
+          <label for="title">Title:</label><br />
+          <input type="text" id="title" name="title" class="input-style" />
+          <label for="description">Description:</label><br />
+          <input
+            type="text"
+            id="description"
+            name="description"
+            class="input-style"
+          />
+          <div id="errorMessages"></div>
+          <!-- Add more fields as necessary -->
+          <input type="submit" value="Submit" />
+        </form>
+      </div>
+    </div>
+  </footer>
 </html>

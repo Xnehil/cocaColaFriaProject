@@ -32,6 +32,7 @@ func main() {
 	r.Post("/save/{title}", makeHandler(saveHandler))
 	fileServer(r, "/static", http.Dir("static"))
 	fileServer(r, "/templates", http.Dir("templates"))
+	fileServer(r, "/scripts", http.Dir("scripts"))
 	r.Get("/", landingPageHandler)
 	r.Get("/anuncios", anunciosHandler)
 
@@ -41,6 +42,7 @@ func main() {
 
 		r.Get("/getAnuncios", getAnuncios)
 		r.Get("/getAnunciosHtml", getAnunciosHtml)
+		r.Post("/createAnuncio", createAnuncio)
 		// Other protected routes...
 	})
 
