@@ -74,21 +74,6 @@ footer {
   }
 }
 
-.announcementBanner {
-  padding-left: 24px;
-  padding-right: 24px;
-  width: 100%;
-  height: 40px;
-  background: linear-gradient(270deg, #a8c3eb, #4c5362);
-  background-size: 200% 200%;
-  animation: gradient 1s ease infinite;
-  justify-content: center;
-  align-items: center;
-  display: inline-flex;
-  font-size: 20px;
-  font-weight: 600;
-  text-align: center;
-}
 
 .messageContent {
   border-radius: 5px;
