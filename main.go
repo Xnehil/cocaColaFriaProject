@@ -35,6 +35,7 @@ func main() {
 	fileServer(r, "/scripts", http.Dir("scripts"))
 	r.Get("/", landingPageHandler)
 	r.Get("/anuncios", anunciosHandler)
+	r.Get("/senado", senadoHandler)
 
 	// Protected routes
 	r.Route("/api", func(r chi.Router) {

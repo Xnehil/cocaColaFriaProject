@@ -84,7 +84,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 
 }
 
-var templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/landing.html", "templates/anuncios.html"))
+var templates = template.Must(template.ParseFiles("templates/edit.html", "templates/view.html", "templates/landing.html", "templates/anuncios.html", "templates/senado.html"))
 
 func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 
@@ -146,4 +146,9 @@ func fileServer(r chi.Router, path string, root http.FileSystem) {
 func anunciosHandler(w http.ResponseWriter, r *http.Request) {
 	p := &Page{Title: "Anuncios"} // You can customize this Page struct as needed
 	renderTemplate(w, "anuncios", p)
+}
+
+func senadoHandler(w http.ResponseWriter, r *http.Request) {
+	p := &Page{Title: "Senado"} // You can customize this Page struct as needed
+	renderTemplate(w, "senado", p)
 }

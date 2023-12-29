@@ -31,6 +31,8 @@ header {
   padding: 20px;
   /*Round borders*/
   border-radius: 5px;
+  color: #f2f3f5;
+  background: #262931
 }
 
 .feature.clicked {
