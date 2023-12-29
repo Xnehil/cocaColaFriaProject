@@ -7,6 +7,12 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="static/styles/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
     <script src="scripts/validations.js"></script>
@@ -24,22 +30,29 @@
 
     <div class="flex">
       <!-- Left bar -->
-      <div class="w-1/6 bg-white p-3">
+      <div class="sidebar">
         <!-- Replace with your icons -->
-        <ul>
+        <ul class="w-full">
           <li>
-            <a href="#" class="block py-1" _="on click toggle .active on me"
-              >Icon 1</a
+            <a href="#" class="sidebar-header" _="on click toggle .active on me"
+              >Mashaherramientas
+            </a>
+          </li>
+          <li>
+            <a href="/anuncios" class="sidebar-item.active" _="on click toggle .active on me"
+              ><img src="/static/icons/anuncios.svg" alt="Home Icon" class="icon"/>
+              Anuncios
+            </a>
+          </li>
+          <li>
+            <a href="/senado" class="sidebar-item" _="on click toggle .active on me"
+              ><img src="/static/icons/encuestas.svg" alt="Home Icon" class="icon"/>
+              Votaciones</a
             >
           </li>
           <li>
-            <a href="#" class="block py-1" _="on click toggle .active on me"
-              >Icon 2</a
-            >
-          </li>
-          <li>
-            <a href="#" class="block py-1" _="on click toggle .active on me"
-              >Icon 3</a
+            <a href="#" class="sidebar-item" _="on click toggle .active on me"
+              >Próximamente nombres de pingüino</a
             >
           </li>
         </ul>
@@ -71,10 +84,7 @@
       Craftear anuncio
     </div>
     <div id="overlay" class="overlay hidden"></div>
-    <div
-      id="modal"
-      class="modal"
-     >
+    <div id="modal" class="modal">
       <div class="modal-content">
         <span
           class="close text-white cursor-pointer w-full flex flex-grow justify-end"
