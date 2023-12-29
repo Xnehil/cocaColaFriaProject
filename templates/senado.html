@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>El Espeluznante Sitio Web de Masha</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="static/styles/styles.css" />
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+  </head>
+
+  <body>
+    <nav class="bg-black text-white p-3">
+      <span
+        class="navbar-brand mb-0 h1 cursor-pointer"
+        onclick="window.location.href='/';"
+      >
+        El espeluznante sitio web de Masha
+      </span>
+    </nav>
+
+    <div class="flex">
+      <div class="w-1/6 bg-white p-3">
+        <!-- Replace with your icons -->
+        <ul>
+          <li>
+            <a href="#" class="block py-1" _="on click toggle .active on me"
+              >Icon 1</a
+            >
+          </li>
+          <li>
+            <a href="#" class="block py-1" _="on click toggle .active on me"
+              >Icon 2</a
+            >
+          </li>
+          <li>
+            <a href="#" class="block py-1" _="on click toggle .active on me"
+              >Icon 3</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <div class="w-5/6 p-3">
+        <div class="p-3">
+          <div class="announcementBanner p-5">
+            <h1 class="text-4xl">Maysha Senado</h1>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Option 1
+          </button>
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Option 2
+          </button>
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Option 3
+          </button>
+          <button
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          >
+            Option 4
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
