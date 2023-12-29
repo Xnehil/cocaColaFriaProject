@@ -265,6 +265,11 @@ input.error {
   color: white;
 }
 
+.sidebar-item.active {
+  background: var(--Surface-selected, #4c5362);
+  border-left: 3px solid rgb(0, 255, 0); /* Adjust as needed */
+}
+
 .sidebar .sidebar-item:hover {
   background: var(--Surface-hover, #1a1e23);
 }
