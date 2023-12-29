@@ -42,7 +42,11 @@ func connect_to_mongodb() error {
 func fetchAnuncios() ([]bson.M, error) {
 	// Find movies
 	collection := mongoClient.Database("cocacolafria").Collection("anuncio")
-	cursor, err := collection.Find(context.Background(), bson.D{})
+
+	// Create a descending sort by _id
+	opts := options.Find().SetSort(bson.D{{Key: "_id", Value: -1}}).SetLimit(12)
+
+	cursor, err := collection.Find(context.Background(), bson.D{}, opts)
 	if err != nil {
 		return nil, err
 	}
@@ -51,11 +55,6 @@ func fetchAnuncios() ([]bson.M, error) {
 	var anuncios []bson.M
 	if err = cursor.All(context.Background(), &anuncios); err != nil {
 		return nil, err
-	}
-
-	//Reverse the order of the anuncios
-	for i, j := 0, len(anuncios)-1; i < j; i, j = i+1, j-1 {
-		anuncios[i], anuncios[j] = anuncios[j], anuncios[i]
 	}
 
 	return anuncios, nil
@@ -77,11 +76,6 @@ func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
-	}
-
-	// Limit the number of anuncios to the last 12
-	if len(anuncios) > 12 {
-		anuncios = anuncios[len(anuncios)-12:]
 	}
 
 	// Format each anuncio into HTML
