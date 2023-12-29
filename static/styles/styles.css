@@ -97,6 +97,7 @@ footer {
   display: inline-flex;
   width: 100%;
   color: white;
+  word-break: break-word;
 }
 
 .mainButton {
