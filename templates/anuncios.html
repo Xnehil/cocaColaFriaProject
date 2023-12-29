@@ -82,15 +82,19 @@
           hx-swap="beforeend"
           hx-headers='{"Authorization": "fantadepina"}'
         >
-          <label for="title">Title:</label><br />
-          <input type="text" id="title" name="title" class="input-style" />
-          <label for="description">Description:</label><br />
+        <div class="flex flex-wrap">
+          <label class="label" for="title">Título:</label><br />
+          <input type="text" id="title" name="title" class="input" />
+        </div>
+        <div class="flex flex-wra mt-2">
+          <label class="label" for="description">Descripción:</label><br />
           <input
             type="text"
             id="description"
             name="description"
-            class="input-style"
+            class="input"
           />
+        </div>
           <div id="errorMessages"></div>
           <!-- Add more fields as necessary -->
           <input type="submit" value="Submit" />

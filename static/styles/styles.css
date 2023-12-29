@@ -139,6 +139,7 @@ footer {
   font-weight: 500;
   line-height: 20px;
   word-wrap: break-word;
+  width: 80px;
 }
 
 .label.required:after {
@@ -170,7 +171,7 @@ input {
   color: #9ea2a8;
   font-size: 14px;
   font-weight: 500;
-  line-height: 20px;
+  line-height: 15px;
   word-wrap: break-word;
   padding: 10px 16px;
   background: #262931;
