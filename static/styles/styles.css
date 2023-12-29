@@ -62,14 +62,32 @@ footer {
   background: #262931;
 }
 
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .announcementBanner {
   padding-left: 24px;
   padding-right: 24px;
   width: 100%;
-  background: #a8c3eb;
-  justify-content: space-between;
+  height: 40px;
+  background: linear-gradient(270deg, #a8c3eb, #4c5362);
+  background-size: 200% 200%;
+  animation: gradient 1s ease infinite;
+  justify-content: center;
   align-items: center;
   display: inline-flex;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .messageContent {
