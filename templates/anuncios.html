@@ -14,9 +14,12 @@
   <body class="on load add .loaded to body">
     <!-- Top bar -->
     <nav class="bg-black text-white p-3">
-      <span class="navbar-brand mb-0 h1"
-        >El espeluznante sitio web de Masha</span
+      <span
+        class="navbar-brand mb-0 h1 cursor-pointer"
+        onclick="window.location.href='/';"
       >
+        El espeluznante sitio web de Masha
+      </span>
     </nav>
 
     <div class="flex">
@@ -62,8 +65,9 @@
       </div>
     </div>
   </body>
-  <footer id="footer">
-    <div class="mainButton" _="on click add .is-active to #modal">
+  <footer id="footer" class="flex justify-end">
+    <div class="mainButton mr-6" _="on click add .is-active to #modal">
+      <img src="static/icons/Vector.svg" alt="Add" class="mr-2" />
       Craftear anuncio
     </div>
     <div id="modal" class="modal bg-white">
