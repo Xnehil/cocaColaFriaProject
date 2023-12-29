@@ -184,6 +184,7 @@ input {
   padding: 10px 16px;
   background: #262931;
   border: 1px solid #404754;
+  min-height: 38.4px;
 }
 
 textarea:hover,
