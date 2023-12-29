@@ -32,7 +32,7 @@ header {
   /*Round borders*/
   border-radius: 5px;
   color: #f2f3f5;
-  background: #262931
+  background: #262931;
 }
 
 .feature.clicked {
@@ -100,6 +100,7 @@ footer {
   display: inline-flex;
   width: 100%;
   color: white;
+  word-break: break-word;
 }
 
 .mainButton {
@@ -186,6 +187,7 @@ input {
   padding: 10px 16px;
   background: #262931;
   border: 1px solid #404754;
+  min-height: 38.4px;
 }
 
 textarea:hover,
@@ -246,7 +248,7 @@ input.error {
 
 .sidebar .sidebar-header {
   display: flex;
-  padding: 12px 24px; 
+  padding: 12px 24px;
   flex-direction: row;
   align-items: flex-start;
   gap: 10px;
@@ -258,7 +260,7 @@ input.error {
 
 .sidebar .sidebar-item {
   display: flex;
-  padding: 12px 24px; 
+  padding: 12px 24px;
   flex-direction: row;
   align-items: flex-start;
   gap: 10px;
@@ -291,4 +293,8 @@ input.error {
   margin-right: 0.5rem;
   background-repeat: no-repeat;
   background-size: contain;
+}
+
+.full-screen-minus-navbar {
+  height: calc(100vh - 3rem);
 }
