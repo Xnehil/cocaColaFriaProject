@@ -22,22 +22,43 @@
     </nav>
 
     <div class="flex">
-      <div class="w-1/6 bg-white p-3">
+      <div class="sidebar">
         <!-- Replace with your icons -->
-        <ul>
+        <ul class="w-full">
           <li>
-            <a href="#" class="block py-1" _="on click toggle .active on me"
-              >Icon 1</a
+            <a href="#" class="sidebar-header" _="on click toggle .active on me"
+              >Mashaherramientas
+            </a>
+          </li>
+          <li>
+            <a
+              href="/anuncios"
+              class="sidebar-item"
+              _="on click toggle .active on me"
+              ><img
+                src="/static/icons/anuncios.svg"
+                alt="Home Icon"
+                class="icon"
+              />
+              Anuncios
+            </a>
+          </li>
+          <li>
+            <a
+              href="/senado"
+              class="sidebar-item active"
+              _="on click toggle .active on me"
+              ><img
+                src="/static/icons/encuestas.svg"
+                alt="Home Icon"
+                class="icon"
+              />
+              Votaciones</a
             >
           </li>
           <li>
-            <a href="#" class="block py-1" _="on click toggle .active on me"
-              >Icon 2</a
-            >
-          </li>
-          <li>
-            <a href="#" class="block py-1" _="on click toggle .active on me"
-              >Icon 3</a
+            <a href="#" class="sidebar-item" _="on click toggle .active on me"
+              >Próximamente nombres de pingüino</a
             >
           </li>
         </ul>
