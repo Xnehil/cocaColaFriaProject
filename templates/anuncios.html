@@ -39,14 +39,28 @@
             </a>
           </li>
           <li>
-            <a href="/anuncios" class="sidebar-item active"  _="on click toggle .active on me"
-              ><img src="/static/icons/anuncios.svg" alt="Home Icon" class="icon"/>
+            <a
+              href="/anuncios"
+              class="sidebar-item active"
+              _="on click toggle .active on me"
+              ><img
+                src="/static/icons/anuncios.svg"
+                alt="Home Icon"
+                class="icon"
+              />
               Anuncios
             </a>
           </li>
           <li>
-            <a href="/senado" class="sidebar-item" _="on click toggle .active on me"
-              ><img src="/static/icons/encuestas.svg" alt="Home Icon" class="icon"/>
+            <a
+              href="/senado"
+              class="sidebar-item"
+              _="on click toggle .active on me"
+              ><img
+                src="/static/icons/encuestas.svg"
+                alt="Home Icon"
+                class="icon"
+              />
               Votaciones</a
             >
           </li>
@@ -103,15 +117,14 @@
             <label class="label text-left" for="title">Título:</label><br />
             <input type="text" id="title" name="title" class="input" />
           </div>
-          <div class="flex flex-wra mt-2">
+          <div class="flex flex-wrap mt-2">
             <label class="label text-left" for="description">Descripción:</label
             ><br />
-            <input
-              type="text"
+            <textarea
               id="description"
               name="description"
               class="input"
-            />
+            ></textarea>
           </div>
           <div id="errorMessages"></div>
           <!-- Add more fields as necessary -->
