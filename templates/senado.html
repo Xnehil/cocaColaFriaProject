@@ -49,28 +49,12 @@
             <h1 class="text-4xl">Maysha Senado</h1>
           </div>
         </div>
-        <div class="space-y-4">
-          <button
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Option 1
-          </button>
-          <button
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Option 2
-          </button>
-          <button
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Option 3
-          </button>
-          <button
-            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
-          >
-            Option 4
-          </button>
-        </div>
+        <div
+          class="space-y-4 p-3 flex flex-col"
+          hx-get="/api/getOpcionesHtml"
+          hx-trigger="load"
+          hx-headers='{"Authorization": "fantadepina"}'
+        ></div>
       </div>
     </div>
   </body>
