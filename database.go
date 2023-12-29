@@ -134,6 +134,12 @@ func createAnuncio(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(title) > 30 || len(description) > 250 {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		return
+	}
+
 	// Create a new anuncio
 	anuncio := bson.M{
 		"title":       title,
