@@ -70,38 +70,42 @@
       <img src="static/icons/Vector.svg" alt="Add" class="mr-2" />
       Craftear anuncio
     </div>
-    <div id="modal" class="modal bg-white">
+    <div id="overlay" class="overlay hidden"></div>
+    <div
+      id="modal"
+      class="modal"
+     >
       <div class="modal-content">
         <span
-          class="close text-right text-black"
+          class="close text-white cursor-pointer w-full flex flex-grow justify-end"
           _="on click remove .is-active from #modal then call clearAnuncioForm()"
-          >&times;</span
-        >
+          >&times;
+        </span>
         <form
           id="anuncioForm"
-          class="text-black"
           onsubmit="return validateAnuncioForm()"
           hx-post="/api/createAnuncio"
           hx-trigger="submit"
           hx-swap="beforeend"
           hx-headers='{"Authorization": "fantadepina"}'
         >
-        <div class="flex flex-wrap">
-          <label class="label" for="title">Título:</label><br />
-          <input type="text" id="title" name="title" class="input" />
-        </div>
-        <div class="flex flex-wra mt-2">
-          <label class="label" for="description">Descripción:</label><br />
-          <input
-            type="text"
-            id="description"
-            name="description"
-            class="input"
-          />
-        </div>
+          <div class="flex flex-wrap">
+            <label class="label text-left" for="title">Título:</label><br />
+            <input type="text" id="title" name="title" class="input" />
+          </div>
+          <div class="flex flex-wra mt-2">
+            <label class="label text-left" for="description">Descripción:</label
+            ><br />
+            <input
+              type="text"
+              id="description"
+              name="description"
+              class="input"
+            />
+          </div>
           <div id="errorMessages"></div>
           <!-- Add more fields as necessary -->
-          <input type="submit" value="Submit" />
+          <button class="mt-4 mainButton" type="submit">Subir</button>
         </form>
       </div>
     </div>
