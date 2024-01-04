@@ -96,7 +96,7 @@ func getAnunciosHtml(w http.ResponseWriter, r *http.Request) {
 		// Start the response for each anuncio
 		fmt.Fprint(w, `<div class="w-full sm:w-1/2 md:w-1/3 p-3">`)
 		fmt.Fprint(w, `<div class="component rounded shadow p-5" _="on click add .clicked to me">`)
-		fmt.Fprintf(w, `<div class="header text-xl">%s</div><div class="pt-5"><div class="messageContent">%s</div></div>`, title, description)
+		fmt.Fprintf(w, `<div class="header text-xl">%s</div><div class="pt-5"><div class="messageContent" style="height: 75px;">%s</div></div>`, title, description)
 		// End the response for each anuncio
 		fmt.Fprint(w, `</div></div>`)
 	}
@@ -204,23 +204,57 @@ func getVotacionesHtml(w http.ResponseWriter, r *http.Request) {
 	// Format each votacion into HTML
 
 	for _, votacion := range votaciones {
-		// title := votacion.Nombre
+		// Start the response for each votacion
+		fmt.Fprintf(w, `<div class="component rounded shadow p-3 m-3">`)
+		fmt.Fprintf(w, `<div class="header text-xl">%s</div>`, votacion.Nombre)
+		fmt.Fprintf(w, `<div class="pt-5">`)
+		fmt.Fprintf(w, `<div class="messageContent mb-3">%s</div>`, votacion.Descripcion)
+		fmt.Fprintf(w, `</div>`)
 
+		fmt.Fprintf(w, `<div class="space-y-4 p-3 flex flex-col">`)
 		// Start the response for each votacion
 		for _, opcion := range votacion.Opciones {
 			title := opcion.Titulo
-
-			// count, ok := opcion["count"].(int32)
-			// if !ok {opcion
-			// 	http.Error(w, "Error: opcion count is not an int32", http.StatusInternalServerError)
-			// 	return
-			// }
-
-			// Start the response for each opcion
-			// fmt.Fprint(w, `<div class="w-full sm:w-1/2 md:w-1/3 p-3">`)
-			fmt.Fprintf(w, `<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">%s</button>`, title)
-			// End the response for each opcion
-			// fmt.Fprint(w, `</div>`)
+			fmt.Fprintf(w, `<button  
+				hx-put="/api/putCuentaVotacion" 
+				hx-params="json:{votacionNombre: '%s', title:'%s'}"
+				class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">%s</button>`, votacion.Nombre, title, title)
 		}
+		fmt.Fprintf(w, `</div>`)
+		// End the response for each votacion
+		fmt.Fprint(w, `</div>`)
 	}
+}
+
+func putCuentaVotacion(w http.ResponseWriter, r *http.Request) {
+	// Parse the JSON body of the request
+	var params struct {
+		VotacionNombre string `json:"votacionNombre"`
+		Title          string `json:"title"`
+	}
+	err := json.NewDecoder(r.Body).Decode(&params)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	// Get a handle for your collection
+	collection := client.Database("yourDatabase").Collection("votacion")
+
+	// Create a filter to match the document you want to update
+	filter := bson.D{{"nombre", params.VotacionNombre}, {"title", params.Title}}
+
+	// Create an update that increments the count of the specified option
+	update := bson.D{{"$inc", bson.D{{"count", 1}}}}
+
+	// Update the document
+	_, err = collection.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// Send a success response
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, "Count updated successfully")
 }

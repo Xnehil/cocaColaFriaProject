@@ -89,24 +89,11 @@
             </ul>
           </div>
         </div>
-        <div class="component rounded shadow p-3 m-3">
-          <div class="header text-xl">Your Title Here</div>
-          <div class="pt-5">
-            <div class="messageContent">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-              voluptatum, voluptate, quibusdam, quia voluptas quod quos
-              voluptatem quae doloribus quidem natus. Quisquam voluptatum,
-              voluptate, quibusdam, quia voluptas quod quos voluptatem quae
-              doloribus quidem natus.
-            </div>
-          </div>
-          <div
-            class="space-y-4 p-3 flex flex-col"
-            hx-get="/api/getVotacionesHtml"
-            hx-trigger="load"
-            hx-headers='{"Authorization": "fantadepina"}'
-          ></div>
-        </div>
+        <div
+          hx-get="/api/getVotacionesHtml"
+          hx-trigger="load"
+          hx-headers='{"Authorization": "fantadepina"}'
+        ></div>
       </div>
     </div>
   </body>

@@ -61,6 +61,7 @@ func main() {
 		r.Get("/getAnunciosHtml", getAnunciosHtml)
 		r.Get("/getVotacionesHtml", getVotacionesHtml)
 		r.Post("/createAnuncio", createAnuncio)
+		r.Put("/putCuentaVotacion", putCuentaVotacion)
 		// Other protected routes...
 	})
 
