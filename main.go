@@ -27,8 +27,8 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 func forceHTTPS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
-		if !strings.Contains(r.Host, "localhost") && r.TLS == nil {
+		proto := r.Header.Get("X-Forwarded-Proto")
+		if !strings.Contains(r.Host, "localhost") && (r.TLS == nil && proto != "https") {
 			log.Printf("Redirecting to https://%s%s", r.Host, r.URL.String())
 			url := "https://" + r.Host + r.URL.String()
 			http.Redirect(w, r, url, http.StatusMovedPermanently)
