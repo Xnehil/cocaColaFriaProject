@@ -174,51 +174,53 @@ func createAnuncio(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`<script>clearAnuncioForm();window.location.reload();</script>`))
 }
 
-// ---- Options ----
-func fetchOpciones() ([]bson.M, error) {
+// ---- Votaciones ----
+func fetchVotaciones() ([]Votacion, error) {
 	// Find movies
-	collection := mongoClient.Database("cocacolafria").Collection("opcion")
+	collection := mongoClient.Database("cocacolafria").Collection("votacion")
 
-	cursor, err := collection.Find(context.Background(), bson.D{})
+	filter := bson.D{{Key: "activa", Value: true}}
+	cursor, err := collection.Find(context.Background(), filter)
 	if err != nil {
 		return nil, err
 	}
 
 	// Map results
-	var opciones []bson.M
-	if err = cursor.All(context.Background(), &opciones); err != nil {
+	var votaciones []Votacion
+	if err = cursor.All(context.Background(), &votaciones); err != nil {
 		return nil, err
 	}
 
-	return opciones, nil
+	return votaciones, nil
 }
 
-func getOpcionesHtml(w http.ResponseWriter, r *http.Request) {
-	opciones, err := fetchOpciones()
+func getVotacionesHtml(w http.ResponseWriter, r *http.Request) {
+	votaciones, err := fetchVotaciones()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	// Format each opcion into HTML
+	// Format each votacion into HTML
 
-	for _, opcion := range opciones {
-		title, ok := opcion["title"].(string)
-		if !ok {
-			http.Error(w, "Error: opcion title is not a string", http.StatusInternalServerError)
-			return
+	for _, votacion := range votaciones {
+		// title := votacion.Nombre
+
+		// Start the response for each votacion
+		for _, opcion := range votacion.Opciones {
+			title := opcion.Titulo
+
+			// count, ok := opcion["count"].(int32)
+			// if !ok {opcion
+			// 	http.Error(w, "Error: opcion count is not an int32", http.StatusInternalServerError)
+			// 	return
+			// }
+
+			// Start the response for each opcion
+			// fmt.Fprint(w, `<div class="w-full sm:w-1/2 md:w-1/3 p-3">`)
+			fmt.Fprintf(w, `<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">%s</button>`, title)
+			// End the response for each opcion
+			// fmt.Fprint(w, `</div>`)
 		}
-
-		// count, ok := opcion["count"].(int32)
-		// if !ok {opcion
-		// 	http.Error(w, "Error: opcion count is not an int32", http.StatusInternalServerError)
-		// 	return
-		// }
-
-		// Start the response for each opcion
-		// fmt.Fprint(w, `<div class="w-full sm:w-1/2 md:w-1/3 p-3">`)
-		fmt.Fprintf(w, `<button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">%s</button>`, title)
-		// End the response for each opcion
-		// fmt.Fprint(w, `</div>`)
 	}
 }
