@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/go-chi/chi"
 )
@@ -24,8 +25,23 @@ func AuthMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+func forceHTTPS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		if !strings.Contains(r.Host, "localhost") && r.TLS == nil {
+			log.Printf("Redirecting to https://%s%s", r.Host, r.URL.String())
+			url := "https://" + r.Host + r.URL.String()
+			http.Redirect(w, r, url, http.StatusMovedPermanently)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
 func main() {
 	r := chi.NewRouter()
+
+	r.Use(forceHTTPS)
 
 	r.Get("/view/{title}", makeHandler(viewHandler))
 	r.Get("/edit/{title}", makeHandler(editHandler))
