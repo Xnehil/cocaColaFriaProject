@@ -215,9 +215,9 @@ func getVotacionesHtml(w http.ResponseWriter, r *http.Request) {
 		// Start the response for each votacion
 		for _, opcion := range votacion.Opciones {
 			title := opcion.Titulo
-			fmt.Fprintf(w, `<button  
+			fmt.Fprintf(w, `<button  id="%s"
 				onclick="sendPut('%s', '%s')"
-				class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">%s</button>`, votacion.Nombre, title, title)
+				class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">%s</button>`, title, votacion.Nombre, title, title)
 		}
 		fmt.Fprintf(w, `</div>`)
 		// End the response for each votacion
@@ -251,7 +251,20 @@ func putCuentaVotacion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Send a success response
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprint(w, "Count updated successfully")
+	// After updating the count...
+	doc := collection.FindOne(context.TODO(), bson.M{"nombre": params.VotacionNombre})
+	var votacion Votacion
+	doc.Decode(&votacion)
+
+	totalVotes := 0
+	for _, option := range votacion.Opciones {
+		totalVotes += option.Cuenta
+	}
+
+	percentages := make(map[string]float64)
+	for _, option := range votacion.Opciones {
+		percentages[option.Titulo] = float64(option.Cuenta) / float64(totalVotes) * 100
+	}
+
+	json.NewEncoder(w).Encode(percentages)
 }
