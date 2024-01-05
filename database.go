@@ -216,8 +216,7 @@ func getVotacionesHtml(w http.ResponseWriter, r *http.Request) {
 		for _, opcion := range votacion.Opciones {
 			title := opcion.Titulo
 			fmt.Fprintf(w, `<button  
-				hx-put="/api/putCuentaVotacion" 
-				hx-params="json:{votacionNombre: '%s', title:'%s'}"
+				onclick="sendPut('%s', '%s')"
 				class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">%s</button>`, votacion.Nombre, title, title)
 		}
 		fmt.Fprintf(w, `</div>`)
@@ -239,13 +238,11 @@ func putCuentaVotacion(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get a handle for your collection
-	collection := client.Database("yourDatabase").Collection("votacion")
+	collection := mongoClient.Database("cocacolafria").Collection("votacion")
 
 	// Create a filter to match the document you want to update
-	filter := bson.D{{"nombre", params.VotacionNombre}, {"title", params.Title}}
-
-	// Create an update that increments the count of the specified option
-	update := bson.D{{"$inc", bson.D{{"count", 1}}}}
+	filter := bson.D{{Key: "nombre", Value: params.VotacionNombre}, {Key: "opciones.titulo", Value: params.Title}}
+	update := bson.D{{Key: "$inc", Value: bson.D{{Key: "opciones.$.cuenta", Value: 1}}}}
 
 	// Update the document
 	_, err = collection.UpdateOne(context.TODO(), filter, update)
